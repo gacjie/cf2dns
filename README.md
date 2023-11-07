@@ -9,6 +9,9 @@ cf2dns宝塔插件版
 #### 演示图片    
  ![cf2dns.jpg](https://raw.githubusercontent.com/gacjie/cf2dns/main/cf2dns.jpg)   
 
+#### 使用说明  
+
+将本项目ZIP包下载到电脑，打开面板-软件商店-第三方应用-导入安装即可
 
 #### 技术交流      
      
