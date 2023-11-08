@@ -16,6 +16,9 @@ cf2dns宝塔插件版
 GacJieMonitor：严格的筛选规则，脚本每段时间提交的IP较少，每个key获取IP会缓存15分钟（缓存期间请求不记次数）。
 HostMonit：为获取更多IP，筛选规则宽松，用于解决假墙问题，但会分配欧州节点，接口没有缓存限制。
 
+#### 付费服务
+计划定价跟cf2dns一致，但目前还要开发其他cdn的脚本，所以短时间不会写自助购买系统，
+如有需要请加群，联系我手动开通key。
 #### 演示图片    
  ![cf2dns.jpg](https://raw.githubusercontent.com/gacjie/cf2dns/main/cf2dns.jpg)   
 
