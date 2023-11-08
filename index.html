@@ -132,7 +132,7 @@
                               layer.msg('保存成功!',{icon:1,time:1500});
                               cf2dns.get_home_info()
                           }
-                    },1500)
+                    },3000)
                 });
             
         },
@@ -228,9 +228,10 @@
     					<p><button style="margin-left: 288px; margin-top: 15px;" class="btn btn-default btn-sm btn-title" onclick="cf2dns.set_data_server();">保存</button></p>\
     				</div>\
     				<ul class="help-info-text c7 mtb15">\
+    				    <li>CDN服务商：暂时只支持CloudFlare,后续GacJieMonitor数据接口将支持CloudFront、Gcore等。</li>\
     					<li>数据服务商：GacJieMonitor以加速为主，HostMonit以假墙为主。</li>\
     					<li>GacJieMonitor：严格的筛选规则，脚本每段时间提交的IP较少，每个key获取IP会缓存15分钟。</li>\
-    					<li>HostMonit：筛选规则宽松，为获取更多IP，来解决假墙问题，但会分配欧州节点，接口没有缓存限制。</li>\
+    					<li>HostMonit：为获取更多IP，筛选规则宽松，用于解决假墙问题，但会分配欧州节点，接口没有缓存限制。</li>\
     					<li>KEY：KEY字段为数据接口的授权KEY，默认o1zrmHAF为免费KEY可永久免费使用。</li>\
     					<li>积分：保存时自动从接口获取积分余额数据。</li>\
     				</ul>';
@@ -252,7 +253,7 @@
                               layer.msg('保存成功!',{icon:1,time:1500});
                               cf2dns.get_data_server()
                           }
-                    },1500)
+                    },3000)
                 });
             
         },
