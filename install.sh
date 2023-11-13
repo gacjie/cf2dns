@@ -13,6 +13,14 @@ Install()
 	#==================================================================
 	#依赖安装开始
     btpip install -r $install_path/requirements.txt
+    if [ ! -f "$install_path/config.json" ]
+    then
+        cp $install_path/default_config.json $install_path/config.json
+    fi
+    if [ ! -f "$install_path/domains.json" ]
+    then
+        cp $install_path/default_domains.json $install_path/domains.json
+    fi
 	#依赖安装结束
 	#==================================================================
 	echo '================================================'
