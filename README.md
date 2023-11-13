@@ -18,11 +18,6 @@
 支持将优选IP解析至华为云解析     
 支持查询授权余额     
 
-#### 优选数据来源
-目前兼容支持cf2dns原作者的接口(https://stock.hostmonit.com/CloudFlareYes)以及本人的云服务监测平台(https://monitor.gacjie.cn)。
-GacJieMonitor：严格的筛选规则，脚本每段时间提交的IP较少，每个key获取IP会缓存15分钟（缓存期间请求不记次数）。
-HostMonit：为获取更多IP，筛选规则宽松，用于解决假墙问题，但会分配欧州节点，接口没有缓存限制。
-
 #### 价格计费（GacJieMonitor）    
 插件免费提供授权码o1zrmHAF，可永久免费使用。    
 付费KEY购买请加Q群699927761联系群主，以获得独享优选IP。
