@@ -2,8 +2,8 @@
   "title": "cf2dns",
   "name": "cf2dns",
   "ps": "自动化更新CDN优选节点",
-  "versions": "1.0",
+  "versions": "1.1",
   "checks": "/www/server/panel/plugin/cf2dns",
   "author": "GacJie",
-  "home": "https://www.baota.me"
+  "home": "https://monitor.gacjie.cn"
 }
