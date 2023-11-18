@@ -87,7 +87,8 @@
             cf2dns.send_request('get_home_info','get',{},(res)=>{
     			var tpl='<div class="clearfixDns">\
     					<div class="SetAggregateOne">\
-    						<p><span>IP类型</span><select class="bt-input-text" name="type" type="text" value="'+res.data.type+'"><option value="v4">IPV4</option></select></p>\
+    						<p><span>IPV4</span><select class="bt-input-text" name="ipv4" type="text" value="'+res.data.ipv4+'"><option value="on">开启</option><option value="off">关闭</option></select></p>\
+    						<p><span>IPV6</span><select class="bt-input-text" name="ipv6" type="text" value="'+res.data.ipv6+'"><option value="on">开启</option><option value="off">关闭</option></select></p>\
                             <p><span>NS服务商</span><select class="bt-input-text" name="dns_server" type="number" value="'+res.data.dns_server+'"><option value="1">DNSPod</option><option value="2">AliDNS</option><option value="3">HuaWeiDNS</option></select></p>\
     						<p><span>解析数量</span><input class="bt-input-text" name="affect_num" type="number" value="'+res.data.affect_num+'" /></p>\
     						<p><span>TTL</span><input class="bt-input-text" name="ttl" type="number" value="'+res.data.ttl+'" /></p>\
@@ -97,10 +98,11 @@
     					<p><button style="margin-left: 288px; margin-top: 15px;" class="btn btn-default btn-sm btn-title" onclick="cf2dns.set_home_info();">保存</button></p>\
     				</div>\
     				<ul class="help-info-text c7 mtb15">\
+    				    <li>IPV6&IPV4：同时开启IPV6&IPV4支持将会请求2次接口消耗双倍积分。</li>\
     					<li>腾讯云密钥获取 https://console.cloud.tencent.com/cam/capi</li>\
     					<li>阿里云密钥获取 https://help.aliyun.com/document_detail/53045.html?spm=a2c4g.11186623.2.11.2c6a2fbdh13O53  注意需要添加DNS控制权限 AliyunDNSFullAccess</li>\
     					<li>华为云后台获取 https://support.huaweicloud.com/devg-apisign/api-sign-provide-aksk.html</li>\
-    					<li>解析数量：这个是每个线路解析的IP，更移动联通电信三条线路。DNSPOD免费版只支持单线路2个IP，华为阿里设置5个</li>\
+    					<li>解析数量：这个是每个线路解析的IP，更移动联通电信三条线路。DNSPOD免费版只支持单线路2个IP，华为阿里可以设置5个</li>\
     				</ul>';
     			$(".plugin_body").html(tpl);
     			document.querySelector('.bt-input-text[name="dns_server"]').addEventListener('change', function() {
@@ -120,14 +122,15 @@
             layer.confirm('是否确认保存配置？', {
                   btn: ['确认','取消']
                 }, function(){
-                    var type = $("select[name='type']").val();
+                    var ipv4 = $("select[name='ipv4']").val();
+                    var ipv6 = $("select[name='ipv6']").val();
 			        var dns_server = $("select[name='dns_server']").val();
 			        var affect_num = $("input[name='affect_num']").val();
 			        var ttl = $("input[name='ttl']").val();
 			        var secretid = $("input[name='secretid']").val();
 			        var secretkey = $("input[name='secretkey']").val();
                     cf2dns.loading = layer.msg('保存中',{icon:16,time:100000});
-                    cf2dns.send_request('set_home_info','post',{'type':type,'dns_server':dns_server,'affect_num':affect_num,'ttl':ttl,'secretid':secretid,'secretkey':secretkey,'error':true},(res)=>{
+                    cf2dns.send_request('set_home_info','post',{'ipv4':ipv4,'ipv6':ipv6,'dns_server':dns_server,'affect_num':affect_num,'ttl':ttl,'secretid':secretid,'secretkey':secretkey,'error':true},(res)=>{
                           if(res.code==200){
                               layer.close(cf2dns.loading);
                               layer.msg('保存成功!',{icon:1,time:1500});

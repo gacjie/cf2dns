@@ -13,7 +13,6 @@ os.chdir("/www/server/panel")
 sys.path.append("class/")
 import public
 config =  json.loads(public.readFile('plugin/cf2dns/config.json'))
-
 #CM:移动 CU:联通 CT:电信  AB:境外 DEF:默认
 #修改需要更改的dnspod域名和子域名
 DOMAINS = json.loads(public.readFile('plugin/cf2dns/domains.json'))
@@ -22,7 +21,7 @@ log_cf2dns = Logger('plugin/cf2dns/cf2dns.log', level='debug')
 def get_optimization_ip():
     try:
         headers = {'Content-Type': 'application/json'}
-        data = {"key": config["key"], "type": config["type"], "cdn_server": config["cdn_server"]}
+        data = {"key": config["key"], "type":iptype, "cdn_server": config["cdn_server"]}
         url = 'https://monitor.gacjie.cn/api/client/get_ip_address'
         if config["data_server"] == 2:
             url = 'https://api.hostmonit.com/get_optimization_ip'
@@ -38,7 +37,7 @@ def get_optimization_ip():
 
 def changeDNS(line, s_info, c_info, domain, sub_domain, cloud):
     global config
-    if config["type"] == 'v6':
+    if iptype == 'v6':
         recordType = "AAAA"
     else:
         recordType = "A"
@@ -91,7 +90,7 @@ def changeDNS(line, s_info, c_info, domain, sub_domain, cloud):
 
 def main(cloud):
     global config
-    if config["type"] == 'v6':
+    if iptype == 'v6':
         recordType = "AAAA"
     else:
         recordType = "A"
@@ -166,4 +165,9 @@ if __name__ == '__main__':
         cloud = AliApi(config["secretid"], config["secretkey"], config["region_ali"])
     elif config["dns_server"] == 3:
         cloud = HuaWeiApi(config["secretid"], config["secretkey"], config["region_hw"])
-    main(cloud)
+    if config["ipv4"] == "on":
+        iptype = "v4"
+        main(cloud)
+    if config["ipv6"] == "on":
+        iptype = "v6"
+        main(cloud)

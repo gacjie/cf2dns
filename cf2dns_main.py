@@ -28,7 +28,8 @@ class cf2dns_main:
     #从设置解析配置信息
     def set_home_info(self, args):
         data =  json.loads(public.readFile(self.__config_path))
-        data['type'] = args.type
+        data['ipv4'] = args.ipv4
+        data['ipv6'] = args.ipv6
         data['dns_server'] = int(args.dns_server)
         # data['cdn_server'] = int(args.cdn_server)
         data['affect_num'] = int(args.affect_num)
