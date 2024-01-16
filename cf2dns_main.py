@@ -52,6 +52,8 @@ class cf2dns_main:
         return self.__response_json(data)
     #设置域名信息
     def set_domian_info(self, args):
+        if not args.host:
+            return self.__response_json('',500,'主机名不能为空，请使用@创建空主机名。')
         domains =  json.loads(public.readFile(self.__domians_path))
         if args.domain not in domains:
             domains[args.domain] = {}
