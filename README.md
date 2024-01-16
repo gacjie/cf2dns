@@ -12,12 +12,12 @@
          
 #### 功能说明    
 支持从GacJieMonitor(monitor.gacjie.cn)获取CloudFlare、CloudFront、Gcore优选IP地址   
-支持从HostMonit(stock.hostmonit.com)获取CloudFlare优选IP地址
-支持将优选IP解析至DNSPOD
-支持将优选IP解析至阿里云解析
-支持将优选IP解析至华为云解析
-支持查询授权余额
-支持ipv4&ipv6同时获取并解析
+支持从HostMonit(stock.hostmonit.com)获取CloudFlare优选IP地址          
+支持将优选IP解析至DNSPOD        
+支持将优选IP解析至阿里云解析          
+支持将优选IP解析至华为云解析          
+支持查询授权余额          
+支持ipv4&ipv6同时获取并解析                 
          
 #### 价格计费（GacJieMonitor）    
 插件免费提供授权码o1zrmHAF，可永久免费使用。    
