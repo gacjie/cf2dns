@@ -1,0 +1,27 @@
+name: 'GitHub Actions CloudFlare2DNSPod Bot'
+
+on:
+  push:
+    branches: 
+      - master
+  schedule:
+    - cron: '*/16 * * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v3
+      - name: 'Set up Python'
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.7
+      - name: 'Install dependencies'
+        run: if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      - name: 'run cf2dns'
+        env:
+          CONFIG: ${{ secrets.CONFIG }}
+          DOMAINS: ${{ secrets.DOMAINS }}
+          PROVIDER: ${{ secrets.PROVIDER }}
+        run: python cf2dns_actions.py
