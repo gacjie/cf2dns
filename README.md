@@ -30,11 +30,11 @@
 [GitHub Actions 运行cf2dns_actions](https://github.com/gacjie/cf2dns/wiki/GitHub Actions 运行cf2dns_actions)  
         
 #### 2024年05月02日更新记录          
-计划任务延迟10-100秒执行，以缓解服务器端的压力。
-优化华为阿里地区选择，方便国内国际版账号使用。
-分离保存key信息与同步key积分功能。
+计划任务延迟10-100秒执行，以缓解服务器端的压力。     
+优化华为阿里地区选择，方便国内国际版账号使用。     
+分离保存key信息与同步key积分功能。     
 完善WIKI使用教程。    
-增加使用python3部署运行的cf2dns_global脚本。     
+增加使用python3部署运行的cf2dns_global脚本。      
 增加使用GitHub Actions 运行的 cf2dns_actions脚本。    
 
 #### 常见问题        
