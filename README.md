@@ -27,7 +27,7 @@
 #### 使用说明   
 [宝塔安装cf2dns插件](https://github.com/gacjie/cf2dns/wiki/宝塔安装cf2dns插件)   
 [python3部署运行cf2dns_global](https://github.com/gacjie/cf2dns/wiki/python3部署运行cf2dns_global)  
-[GitHub Actions 运行cf2dns_actions](https://github.com/gacjie/cf2dns/wiki/GitHub Actions 运行cf2dns_actions)  
+[GitHub Actions 运行cf2dns_actions](https://github.com/gacjie/cf2dns/wiki/GitHub-Actions-运行cf2dns_actions)  
         
 #### 2024年05月02日更新记录          
 计划任务延迟10-100秒执行，以缓解服务器端的压力。     
