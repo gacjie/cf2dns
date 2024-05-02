@@ -5,8 +5,8 @@
 import sys,os,json,requests,time,base64,shutil,random,traceback
 
 # 生成随机时间，范围在10到150之间
-random_time = random.uniform(10, 100)
-print("本次将等待{}秒执行".format(random_time))
+#random_time = random.uniform(10, 100)
+#print("本次将等待{}秒执行".format(random_time))
 # 延迟执行随机时间
 #time.sleep(random_time)
 
