@@ -3,28 +3,54 @@
 # Mail: tongdongdong@outlook.com
 
 import sys,os,json,requests,time,base64,shutil,random,traceback
+
 # 生成随机时间，范围在10到150之间
 random_time = random.uniform(10, 100)
 print("本次将等待{}秒执行".format(random_time))
 # 延迟执行随机时间
 time.sleep(random_time)
 
+# 获取当前目录
+current_dir = os.path.dirname(__file__)
+
 from dns.qCloud import QcloudApiv3 # QcloudApiv3 DNSPod 的 API 更新了 By github@z0z0r4
 from dns.aliyun import AliApi
 from dns.huawei import HuaWeiApi
 from log import Logger
-#设置运行目录
-os.chdir("/www/server/panel")
-#添加包引用位置并引用公共包
-sys.path.append("class/")
-import public
-config =  json.loads(public.readFile('plugin/cf2dns/config.json'))
+
+def readFile(filename,mode = 'r'):
+    """
+    读取文件内容
+    @filename 文件名
+    return string(bin) 若文件不存在，则返回None
+    """
+    if not os.path.exists(filename): return False
+    fp = None
+    try:
+        fp = open(filename, mode)
+        f_body = fp.read()
+    except Exception as ex:
+        if sys.version_info[0] != 2:
+            try:
+                fp = open(filename, mode,encoding="utf-8",errors='ignore')
+                f_body = fp.read()
+            except:
+                fp = open(filename, mode,encoding="GBK",errors='ignore')
+                f_body = fp.read()
+        else:
+            return False
+    finally:
+        if fp and not fp.closed:
+            fp.close()
+    return f_body
+    
+config =  json.loads(readFile('{}/config.json'.format(current_dir)))
 #CM:移动 CU:联通 CT:电信  AB:境外 DEF:默认
 #修改需要更改的dnspod域名和子域名
-DOMAINS = json.loads(public.readFile('plugin/cf2dns/domains.json'))
+DOMAINS = json.loads(readFile('{}/domains.json'.format(current_dir)))
 #获取服务商信息
-provider_data = json.loads(public.readFile('plugin/cf2dns/provider.json'))
-log_cf2dns = Logger('plugin/cf2dns/cf2dns.log', level='debug') 
+provider_data = json.loads(readFile('{}/provider.json'.format(current_dir)))
+log_cf2dns = Logger('{}/cf2dns.log'.format(current_dir), level='debug') 
 
 def get_optimization_ip():
     try:
@@ -163,6 +189,7 @@ def main(cloud):
         except Exception as e:
             traceback.print_exc()  
             log_cf2dns.logger.error("CHANGE DNS ERROR: ----Time: " + str(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())) + "----MESSAGE: " + str(e))
+           
 
 if __name__ == '__main__':
     if config["dns_server"] == 1:

@@ -17,6 +17,7 @@ class cf2dns_main:
     __config = None
     __config_path = __plugin_path + "config.json"
     __domians_path = __plugin_path + "domains.json"
+    __provider_path = __plugin_path + "provider.json"
     #构造方法
     def  __init__(self):
         pass
@@ -82,17 +83,23 @@ class cf2dns_main:
         data['cdn_server'] = int(args.cdn_server)
         data['key'] = args.key
         data['data_server'] = int(args.data_server)
-        headers = {'Content-Type': 'application/json'}
-        url = 'https://monitor.gacjie.cn/api/client/get_account_integral?license='+args.key
-        if data["data_server"] == 2:
-            url = 'https://api.hostmonit.com/get_license?license='+args.key
-        response = requests.get(url, headers=headers)
-        if response.status_code == 200:
-            res=response.json()
-        data['integral'] = int(res['count'])
         public.writeFile(self.__config_path,json.dumps(data))
         return self.__response_json('',200,'数据保存成功')
 
+    #更新授权积分
+    def update_integral(self, args):
+        data =  json.loads(public.readFile(self.__config_path))
+        provider_data =  json.loads(public.readFile(self.__provider_path))
+        provider = [item for item in provider_data if item['id'] == data["data_server"]][0]
+        headers = {'Content-Type': 'application/json'}
+        response = requests.get(provider['get_license_url']+data["key"], headers=headers)
+        if response.status_code == 200:
+            res=response.json()
+            data['integral'] = int(res['count'])
+        # return self.__response_json(provider,200,'积分更新成功')
+        public.writeFile(self.__config_path,json.dumps(data))
+        return self.__response_json('',200,'积分更新成功')
+        
     def __response_json(self, data, code=0, msg=''):
         response = {"code": code, "msg": msg, "data": data}
         return response
