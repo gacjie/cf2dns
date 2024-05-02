@@ -19,22 +19,24 @@
 支持查询授权余额          
 支持ipv4&ipv6同时获取并解析                 
          
-#### 价格计费（GacJieMonitor）    
+#### 价格计费    
 插件免费提供授权码o1zrmHAF，可永久免费使用。    
-           
-#### 注意事项    
-插件安装时请关闭宝塔系统加固插件，会终止安装脚本的执行。     
-插件只会更新电信、移动、联通三网线路的IP，因此还需要将回退源设置到默认线路上。    
-使用插件前请确保您的网站域名使用cname或saas方式接入，并且域名解析在dnspod、华为云、阿里云的国内版。
+[GacJieMonitor](https://github.com/gacjie/cf2dns/wiki/GacJieMonitor付费KEY价格)   
+[HostMonit小店](https://shop.hostmonit.com/)   
           
 #### 使用说明   
-将本项目ZIP包下载到电脑，打开面板-软件商店-第三方应用-导入安装即可    
+[宝塔安装cf2dns插件](https://github.com/gacjie/cf2dns/wiki/宝塔安装cf2dns插件)   
+[python3部署运行cf2dns_global](https://github.com/gacjie/cf2dns/wiki/python3部署运行cf2dns_global)  
+[GitHub Actions 运行cf2dns_actions](https://github.com/gacjie/cf2dns/wiki/GitHub Actions 运行cf2dns_actions)  
         
-#### 2024年05月01日更新记录          
+#### 2024年05月02日更新记录          
 计划任务延迟10-100秒执行，以缓解服务器端的压力。
 优化华为阿里地区选择，方便国内国际版账号使用。
 分离保存key信息与同步key积分功能。
-       
+完善WIKI使用教程。    
+增加使用python3部署运行的cf2dns_global脚本。     
+增加使用GitHub Actions 运行的 cf2dns_actions脚本。    
+
 #### 常见问题        
       
 Q：为什么不支持海外dns解析运营商？     
