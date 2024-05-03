@@ -18,6 +18,9 @@
 支持将优选IP解析至华为云解析          
 支持查询授权余额          
 支持ipv4&ipv6同时获取并解析                 
+支持宝塔部署cf2dns插件    
+支持python3部署运行cf2dns_global    
+支持GitHub-Actions-运行cf2dns_actions    
          
 #### 价格计费    
 插件免费提供授权码o1zrmHAF，可永久免费使用。    
@@ -29,6 +32,12 @@
 [python3部署运行cf2dns_global](https://github.com/gacjie/cf2dns/wiki/python3部署运行cf2dns_global)  
 [GitHub Actions 运行cf2dns_actions](https://github.com/gacjie/cf2dns/wiki/GitHub-Actions-运行cf2dns_actions)  
         
+#### 数据备份
+config.json是配置数据
+domains.json是域名数据
+cf2dns插件、cf2dns_global、cf2dns_actions均支持。
+配置完后可以直接备份这俩数据文件，后续需要迁移可直接上传。
+   
 #### 2024年05月02日更新记录          
 计划任务延迟10-100秒执行，以缓解服务器端的压力。     
 优化华为阿里地区选择，方便国内国际版账号使用。     
