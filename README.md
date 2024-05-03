@@ -27,6 +27,11 @@
 [GacJieMonitor](https://github.com/gacjie/cf2dns/wiki/GacJieMonitor付费KEY价格)   
 [HostMonit小店](https://shop.hostmonit.com/)   
           
+### 注意事项     
+宝塔安装时请关闭宝塔系统加固插件，会终止安装脚本的执行。     
+脚本只会更新电信、移动、联通三网线路的IP，因此还需要将回退源设置到默认线路上。      
+使用插件前请确保您的网站域名使用cname或saas方式接入，并且域名解析在dnspod、华为云、阿里云。       
+     
 #### 使用说明   
 [宝塔安装cf2dns插件](https://github.com/gacjie/cf2dns/wiki/宝塔安装cf2dns插件)   
 [python3部署运行cf2dns_global](https://github.com/gacjie/cf2dns/wiki/python3部署运行cf2dns_global)  
