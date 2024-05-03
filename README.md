@@ -37,11 +37,11 @@
 [python3部署运行cf2dns_global](https://github.com/gacjie/cf2dns/wiki/python3部署运行cf2dns_global)  
 [GitHub Actions 运行cf2dns_actions](https://github.com/gacjie/cf2dns/wiki/GitHub-Actions-运行cf2dns_actions)  
         
-#### 数据备份
-config.json是配置数据
-domains.json是域名数据
-cf2dns插件、cf2dns_global、cf2dns_actions均支持。
-配置完后可以直接备份这俩数据文件，后续需要迁移可直接上传。
+#### 数据备份     
+config.json是配置数据    
+domains.json是域名数据    
+cf2dns插件、cf2dns_global、cf2dns_actions均支持。    
+配置完后可以直接备份这俩数据文件，后续需要迁移可直接上传。     
    
 #### 2024年05月02日更新记录          
 计划任务延迟10-100秒执行，以缓解服务器端的压力。     
