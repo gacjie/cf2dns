@@ -1,7 +1,8 @@
 #### 简单介绍     
-本项目为cf2dns宝塔插件版。     
-为了方便部署，因此将原项目github.com/ddgth/cf2dns做成了宝塔插件。      
-功能上主要用于将CloudFlare CloudFront Gcore优选IP地址解析到您的域名记录中。     
+本项目基于github.com/ddgth/cf2dns二次开发增加了更多功能与平台支持。    
+功能上主要用于自动化将优选IP地址解析到您的域名记录中。    
+支持CloudFlare、CloudFront、Gcore优选IPv4&IPv6地址    
+支持宝塔面板、python3、GitHub-Actions三种方式部署。
    
 #### 云服务监测平台(https://monitor.gacjie.cn)     
 由于近期移动抽风屏蔽eu.org域名，影响监测脚本提交数据，故我把域名全换掉了。     
