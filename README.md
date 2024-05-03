@@ -2,7 +2,8 @@
 本项目基于github.com/ddgth/cf2dns二次开发增加了更多功能与平台支持。    
 功能上主要用于自动化将优选IP地址解析到您的域名记录中。    
 支持CloudFlare、CloudFront、Gcore优选IPv4&IPv6地址    
-支持宝塔面板、python3、GitHub-Actions三种方式部署。
+支持宝塔面板、python3、GitHub-Actions三种方式部署。    
+支持GacJieMonitor(monitor.gacjie.cn)、HostMonit(stock.hostmonit.com)两个平台获取数据。
    
 #### 云服务监测平台(https://monitor.gacjie.cn)     
 由于近期移动抽风屏蔽eu.org域名，影响监测脚本提交数据，故我把域名全换掉了。     
@@ -22,6 +23,11 @@
 支持宝塔部署cf2dns插件    
 支持python3部署运行cf2dns_global    
 支持GitHub-Actions-运行cf2dns_actions    
+         
+#### 小广告
+[【宝塔】送你10850元礼包](https://www.bt.cn/?invite_code=M19yaHFycXY=)    
+[【腾讯云】云产品1折特惠专区](https://curl.qcloud.com/zASK1SLm)     
+[【阿里云】云产品爆款特惠](https://www.aliyun.com/minisite/goods?userCode=zqpad1gj)    
          
 #### 价格计费    
 插件免费提供授权码o1zrmHAF，可永久免费使用。    
