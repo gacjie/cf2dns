@@ -320,6 +320,7 @@
                                     <p><span>数据服务商</span><select class="bt-input-text" name="data_server" type="number">\
                                         <option value="1"' + (res.data.data_server === 1 ? ' selected' : '') + '>GacJieMonitor</option>\
                                         <option value="2"' + (res.data.data_server === 2 ? ' selected' : '') + '>HostMonit</option>\
+                                        <option value="3"' + (res.data.data_server === 3 ? ' selected' : '') + '>345673.xyz</option>\
                                     </select></p>\
                                     <p><span>KEY</span><input class="bt-input-text" name="key" type="text" value="' + res.data.key + '" /></p>\
                                     <p><span>积分</span><input disabled="disabled" class="bt-input-text" name="integral" type="text" value="' + res.data.integral + '" /><button class="btn btn-default btn-sm btn-title" onclick="cf2dns.update_integral();">更新</button></p>\
@@ -327,7 +328,7 @@
                                 <p><button style="margin-left: 288px; margin-top: 15px;" class="btn btn-default btn-sm btn-title" onclick="cf2dns.set_data_server();">保存</button></p>\
                             </div>\
                             <ul class="help-info-text c7 mtb15">\
-                                <li>CDN服务商：GacJieMonitor数据接口支持CloudFlare、CloudFront、Gcore。HostMonit只支持CloudFlare。</li>\
+                                <li>CDN服务商：GacJieMonitor数据接口支持CloudFlare、CloudFront、Gcore。HostMonit、345673.xyz只支持CloudFlare。</li>\
                                 <li>数据服务商：GacJieMonitor(monitor.gacjie.cn)，HostMonit(hostmonit.com)。</li>\
                                 <li>KEY：KEY字段为数据接口的授权KEY，默认o1zrmHAF为免费KEY可永久免费使用。</li>\
                                 <li>积分：保存时自动从接口获取积分余额数据。</li>\

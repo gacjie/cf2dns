@@ -10,6 +10,12 @@
         "name": "hostmonit",
         "get_ip_url": "https://api.hostmonit.com/get_optimization_ip", 
         "get_license_url": "https://api.hostmonit.com/get_license?license="
+    },
+    {
+        "id": 3,
+        "name": "345673",
+        "get_ip_url": "https://api.345673.xyz/get_data", 
+        "get_license_url": "https://api.345673.xyz/get_license?license="
     }
     
 ]

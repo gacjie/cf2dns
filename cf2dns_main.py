@@ -34,8 +34,8 @@ class cf2dns_main:
         data['dns_server'] = int(args.dns_server)
         # data['cdn_server'] = int(args.cdn_server)
         data['affect_num'] = int(args.affect_num)
-        # data['region_hw'] = args.region_hw
-        # data['region_ali'] = args.region_ali
+        data['region_hw'] = args.region_hw
+        data['region_ali'] = args.region_ali
         data['ttl'] = int(args.ttl)
         data['secretid'] = args.secretid
         data['secretkey'] = args.secretkey

@@ -15,6 +15,7 @@
 #### 功能说明    
 支持从GacJieMonitor(monitor.gacjie.cn)获取CloudFlare、CloudFront、Gcore优选IP地址   
 支持从HostMonit(stock.hostmonit.com)获取CloudFlare优选IP地址          
+支持从345673.xyz(345673.xyz)获取CloudFlare优选IP地址   
 支持将优选IP解析至DNSPOD        
 支持将优选IP解析至阿里云解析          
 支持将优选IP解析至华为云解析          
@@ -33,6 +34,7 @@
 插件免费提供授权码o1zrmHAF，可永久免费使用。    
 [GacJieMonitor](https://github.com/gacjie/cf2dns/wiki/GacJieMonitor付费KEY价格)   
 [HostMonit小店](https://shop.hostmonit.com/)   
+[345673.xyz](https://345673.xyz/)  
           
 ### 注意事项     
 宝塔安装时请关闭宝塔系统加固插件，会终止安装脚本的执行。     
@@ -50,13 +52,11 @@ domains.json是域名数据
 cf2dns插件、cf2dns_global、cf2dns_actions均支持。    
 配置完后可以直接备份这俩数据文件，后续需要迁移可直接上传。     
    
-#### 2024年05月02日更新记录          
-计划任务延迟10-100秒执行，以缓解服务器端的压力。     
-优化华为阿里地区选择，方便国内国际版账号使用。     
-分离保存key信息与同步key积分功能。     
-完善WIKI使用教程。    
-增加使用python3部署运行的cf2dns_global脚本。      
-增加使用GitHub Actions 运行的 cf2dns_actions脚本。    
+#### 2024年05月07日更新记录          
+修复宝塔cf2dns插件无法保存地域的bug
+增加345673.xyz服务商接口
+由于没有什么大的更新版本
+插件还是使用1.5版本
 
 #### 常见问题        
       
