@@ -4,3 +4,4 @@ aliyun-python-sdk-kms==2.16.3
 huaweicloudsdkcore==3.1.104
 huaweicloudsdkdns==3.1.104
 tencentcloud-sdk-python==3.0.1183
+requests==2.31.0
