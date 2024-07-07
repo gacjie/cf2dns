@@ -1,6 +1,6 @@
-aliyun-python-sdk-alidns==2.6.19
-aliyun-python-sdk-core==2.13.29
-huaweicloudsdkcore==3.1.5
-huaweicloudsdkdns==3.1.5
-requests==2.28.1
-tencentcloud-sdk-python==3.0.806
+aliyun-python-sdk-alidns==3.0.7
+aliyun-python-sdk-core==2.15.1
+aliyun-python-sdk-kms==2.16.3
+huaweicloudsdkcore==3.1.104
+huaweicloudsdkdns==3.1.104
+tencentcloud-sdk-python==3.0.1183

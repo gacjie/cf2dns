@@ -89,11 +89,11 @@
                 var tpl = '<div class="clearfixDns">\
                         <div class="SetAggregateOne">\
                             <p><span>IPV4</span><select class="bt-input-text" name="ipv4" type="text">\
-                                <option value="on"' + (res.data.ipv4 === 'yes' ? ' selected' : '') + '>开启</option>\
+                                <option value="on"' + (res.data.ipv4 === 'on' ? ' selected' : '') + '>开启</option>\
                                 <option value="off"' + (res.data.ipv4 === 'off' ? ' selected' : '') + '>关闭</option>\
                             </select></p>\
                             <p><span>IPV6</span><select class="bt-input-text" name="ipv6" type="text">\
-                                <option value="on"' + (res.data.ipv6 === 'yes' ? ' selected' : '') + '>开启</option>\
+                                <option value="on"' + (res.data.ipv6 === 'on' ? ' selected' : '') + '>开启</option>\
                                 <option value="off"' + (res.data.ipv6 === 'off' ? ' selected' : '') + '>关闭</option>\
                             </select></p>\
                             <p><span>NS服务商</span><select class="bt-input-text" name="dns_server" type="number"\
@@ -318,9 +318,9 @@
                                         <option value="3"' + (res.data.cdn_server === 3 ? ' selected' : '') + '>Gcore</option>\
                                     </select></p>\
                                     <p><span>数据服务商</span><select class="bt-input-text" name="data_server" type="number">\
-                                        <option value="1"' + (res.data.data_server === 1 ? ' selected' : '') + '>GacJieMonitor</option>\
-                                        <option value="2"' + (res.data.data_server === 2 ? ' selected' : '') + '>HostMonit</option>\
-                                        <option value="3"' + (res.data.data_server === 3 ? ' selected' : '') + '>345673.xyz</option>\
+                                        <option value="1"' + (res.data.data_server === 1 ? ' selected' : '') + '>GacJieMonitor(monitor.gacjie.cn)</option>\
+                                        <option value="2"' + (res.data.data_server === 2 ? ' selected' : '') + '>HostMonit(stock.hostmonit.com)</option>\
+                                        <option value="3"' + (res.data.data_server === 3 ? ' selected' : '') + '>345673(345673.xyz)</option>\
                                     </select></p>\
                                     <p><span>KEY</span><input class="bt-input-text" name="key" type="text" value="' + res.data.key + '" /></p>\
                                     <p><span>积分</span><input disabled="disabled" class="bt-input-text" name="integral" type="text" value="' + res.data.integral + '" /><button class="btn btn-default btn-sm btn-title" onclick="cf2dns.update_integral();">更新</button></p>\
