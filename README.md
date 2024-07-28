@@ -25,6 +25,12 @@
 支持python3部署运行cf2dns_global    
 支持GitHub-Actions-运行cf2dns_actions    
          
+#### 宝塔兼容性   
+已测试支持以下版本    
+aapanel7.0.7   
+btpanel7.7.0    
+btpanel9.0.0-lts    
+         
 #### 小广告
 [【宝塔】送你10850元礼包](https://www.bt.cn/?invite_code=M19yaHFycXY=)    
 [【腾讯云】云产品1折特惠专区](https://curl.qcloud.com/zASK1SLm)     
@@ -52,10 +58,8 @@ domains.json是域名数据
 cf2dns插件、cf2dns_global、cf2dns_actions均支持。    
 配置完后可以直接备份这俩数据文件，后续需要迁移可直接上传。     
    
-#### 2024年07月07日更新记录（V1.6）            
-修复兼容aapanel7.X的python3.12运行环境    
-修复代码中选项使用on为开启、off为关闭，而在默认配置文件使用true导致actions、global无法正常工作的问题。   
-cf2dns插件版，数据服务商选项增加域名显示，显示格式为name(domain)。    
+#### 2024年07月28日更新记录（V1.7）            
+修复已知BUG    
    
 #### 常见问题        
       
