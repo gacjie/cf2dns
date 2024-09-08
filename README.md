@@ -7,6 +7,11 @@
 #### 演示图片    
  ![cf2dns.jpg](https://raw.githubusercontent.com/gacjie/cf2dns/main/cf2dns.jpg)   
         
+#### 公告通知    
+由于原系统monitor.gacjie.cn代码性能差，以及国内服务器成本高、小水管等原因。      
+我重写了一套系统，并更换海外服务器，使用新域名182682.xyz继续提供服务。      
+原系统计划在国内服务器到期后彻底停止服务，请及时更新插件版本到最新。     
+    
 #### 接口支持    
 CloudFlare官方优选(182682.xyz)更新频率15IP/15分钟   
 CloudFlare官方优选(hostmonit.com)更新频率15IP/15分钟   
