@@ -54,7 +54,7 @@
                 tpl += "	<tbody>";
                 tpl += "    <tr>";
                 tpl += "      <td>插件版本:<\/td>";
-                tpl += "      <td><i class=\"sui-icon icon-pc-loading\">Cf2dns V1.7 240728<\/i><\/td>";
+                tpl += "      <td><i class=\"sui-icon icon-pc-loading\">Cf2dns V1.8 240908<\/i><\/td>";
                 tpl += "    <\/tr>";
                 tpl += "    <tr>";
                 tpl += "      <td>作者:<\/td>";
@@ -69,8 +69,12 @@
                 tpl += "      <td><a href=\"https://github.com/ddgth/cf2dns/\" target=\"_blank\">冬冬<\/a> & <a href=\"https://shop.huaqi.pro/\" target=\"_blank\">花旗<\/a> & <a href=\"https://www.hosuyun.com/\" target=\"_blank\">弘速云<\/a><\/td>";
                 tpl += "    <\/tr>";
                 tpl += "    <tr>";
-                tpl += "      <td>【宝塔】送你10850元礼包<\/td>";
-                tpl += "      <td><a href=\"https://www.bt.cn/?invite_code=M19yaHFycXY=\" target=\"_blank\">https://www.bt.cn/?invite_code=M19yaHFycXY=<\/a><\/td>";
+                tpl += "      <td>【弘速云】香港8H8G 50元/月<\/td>";
+                tpl += "      <td><a href=\"https://www.hosuyun.com\" target=\"_blank\">https://www.hosuyun.com<\/a><\/td>";
+                tpl += "    <\/tr>";
+                tpl += "    <tr>";
+                tpl += "      <td>【宝塔】Linux专业版1年￥699<\/td>";
+                tpl += "      <td><a href=\"https://www.bt.cn/p/2PcEKn\" target=\"_blank\">https://www.bt.cn/p/2PcEKn<\/a><\/td>";
                 tpl += "    <\/tr>";
                 tpl += "    <tr>";
                 tpl += "      <td>【腾讯云】云产品1折特惠<\/td>";
@@ -312,15 +316,12 @@
                         console.log(res.data.data_server);
                 var tpl = '<div class="clearfixDns">\
                                 <div class="SetAggregateOne">\
-                                    <p><span>CDN服务商</span><select class="bt-input-text" name="cdn_server" type="number">\
-                                        <option value="1"' + (res.data.cdn_server === 1 ? ' selected' : '') + '>CloudFlare</option>\
-                                        <option value="2"' + (res.data.cdn_server === 2 ? ' selected' : '') + '>CloudFront</option>\
-                                        <option value="3"' + (res.data.cdn_server === 3 ? ' selected' : '') + '>Gcore</option>\
-                                    </select></p>\
-                                    <p><span>数据服务商</span><select class="bt-input-text" name="data_server" type="number">\
-                                        <option value="1"' + (res.data.data_server === 1 ? ' selected' : '') + '>GacJieMonitor(monitor.gacjie.cn)</option>\
-                                        <option value="2"' + (res.data.data_server === 2 ? ' selected' : '') + '>HostMonit(stock.hostmonit.com)</option>\
-                                        <option value="3"' + (res.data.data_server === 3 ? ' selected' : '') + '>345673(345673.xyz)</option>\
+                                    <p><span>数据接口</span><select class="bt-input-text" name="data_server" type="number">\
+                                        <option value="1"' + (res.data.data_server === 1 ? ' selected' : '') + '>CloudFlare官方优选(182682.xyz)</option>\
+                                        <option value="2"' + (res.data.data_server === 2 ? ' selected' : '') + '>CloudFlare官方优选(hostmonit.com)</option>\
+                                        <option value="3"' + (res.data.data_server === 3 ? ' selected' : '') + '>CloudFlare官方优选(345673.xyz)</option>\
+                                        <option value="5"' + (res.data.data_server === 5 ? ' selected' : '') + '>CloudFront官方优选(182682.xyz)</option>\
+                                        <option value="6"' + (res.data.data_server === 6 ? ' selected' : '') + '>Gcore官方优选(182682.xyz)</option>\
                                     </select></p>\
                                     <p><span>KEY</span><input class="bt-input-text" name="key" type="text" value="' + res.data.key + '" /></p>\
                                     <p><span>积分</span><input disabled="disabled" class="bt-input-text" name="integral" type="text" value="' + res.data.integral + '" /><button class="btn btn-default btn-sm btn-title" onclick="cf2dns.update_integral();">更新</button></p>\
@@ -328,8 +329,7 @@
                                 <p><button style="margin-left: 288px; margin-top: 15px;" class="btn btn-default btn-sm btn-title" onclick="cf2dns.set_data_server();">保存</button></p>\
                             </div>\
                             <ul class="help-info-text c7 mtb15">\
-                                <li>CDN服务商：GacJieMonitor数据接口支持CloudFlare、CloudFront、Gcore。HostMonit、345673.xyz只支持CloudFlare。</li>\
-                                <li>数据服务商：GacJieMonitor(monitor.gacjie.cn)，HostMonit(hostmonit.com)。</li>\
+                                <li>数据接口：指定接口获取对应数据，支持CloudFlare、CloudFront、Gcore，以及多个数据提供网站。</li>\
                                 <li>KEY：KEY字段为数据接口的授权KEY，默认o1zrmHAF为免费KEY可永久免费使用。</li>\
                                 <li>积分：保存时自动从接口获取积分余额数据。</li>\
                             </ul>';
@@ -340,11 +340,10 @@
             layer.confirm('是否确认保存配置？', {
                   btn: ['确认','取消']
                 }, function(){
-			        var cdn_server = $("select[name='cdn_server']").val();
 			        var key = $("input[name='key']").val();
 			        var data_server = $("select[name='data_server']").val();
                     cf2dns.loading = layer.msg('保存中',{icon:16,time:100000});
-                    cf2dns.send_request('set_data_server','post',{'cdn_server':cdn_server,'key':key,'data_server':data_server,'error':true},(res)=>{
+                    cf2dns.send_request('set_data_server','post',{'key':key,'data_server':data_server,'error':true},(res)=>{
                           if(res.code==200){
                               layer.close(cf2dns.loading);
                               layer.msg('保存成功!',{icon:1,time:3000});
@@ -360,11 +359,10 @@
             layer.confirm('是否确认更新积分？', {
                   btn: ['确认','取消']
                 }, function(){
-			        var cdn_server = $("select[name='cdn_server']").val();
 			        var key = $("input[name='key']").val();
 			        var data_server = $("select[name='data_server']").val();
                     cf2dns.loading = layer.msg('更新积分中',{icon:16,time:100000});
-                    cf2dns.send_request('update_integral','post',{'cdn_server':cdn_server,'key':key,'data_server':data_server,'error':true},(res)=>{
+                    cf2dns.send_request('update_integral','post',{'key':key,'data_server':data_server,'error':true},(res)=>{
                           if(res.code==200){
                               layer.close(cf2dns.loading);
                               layer.msg('更新积分成功!',{icon:1,time:3000});

@@ -29,7 +29,7 @@ log_cf2dns = Logger('plugin/cf2dns/cf2dns.log', level='debug')
 def get_optimization_ip():
     try:
         headers = {'Content-Type': 'application/json'}
-        data = {"key": config["key"], "type":iptype, "cdn_server": config["cdn_server"]}
+        data = {"key": config["key"], "type":iptype }
         provider = [item for item in provider_data if item['id'] == config["data_server"]][0]
         response = requests.post(provider['get_ip_url'], json=data, headers=headers)
         if response.status_code == 200:

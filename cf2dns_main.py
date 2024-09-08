@@ -80,7 +80,6 @@ class cf2dns_main:
     #设置数据服务信息
     def set_data_server(self, args):
         data =  json.loads(public.readFile(self.__config_path))
-        data['cdn_server'] = int(args.cdn_server)
         data['key'] = args.key
         data['data_server'] = int(args.data_server)
         public.writeFile(self.__config_path,json.dumps(data))

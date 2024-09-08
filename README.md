@@ -3,27 +3,21 @@
 功能上主要用于自动化将优选IP地址解析到您的域名记录中。    
 支持CloudFlare、CloudFront、Gcore优选IPv4&IPv6地址    
 支持宝塔面板、python3、GitHub-Actions三种方式部署。    
-支持GacJieMonitor(monitor.gacjie.cn)、HostMonit(stock.hostmonit.com)两个平台获取数据。
-   
-#### 云服务监测平台(https://monitor.gacjie.cn)     
-由于近期移动抽风屏蔽eu.org域名，影响监测脚本提交数据，故我把域名全换掉了。     
-不再使用eu.org域名，请大家及时更换新的地址链接。    
     
 #### 演示图片    
  ![cf2dns.jpg](https://raw.githubusercontent.com/gacjie/cf2dns/main/cf2dns.jpg)   
-         
-#### 功能说明    
-支持从GacJieMonitor(monitor.gacjie.cn)获取CloudFlare、CloudFront、Gcore优选IP地址   
-支持从HostMonit(stock.hostmonit.com)获取CloudFlare优选IP地址          
-支持从345673.xyz(345673.xyz)获取CloudFlare优选IP地址   
-支持将优选IP解析至DNSPOD        
-支持将优选IP解析至阿里云解析          
-支持将优选IP解析至华为云解析          
-支持查询授权余额          
-支持ipv4&ipv6同时获取并解析                 
-支持宝塔部署cf2dns插件    
-支持python3部署运行cf2dns_global    
-支持GitHub-Actions-运行cf2dns_actions    
+        
+#### 接口支持    
+CloudFlare官方优选(182682.xyz)更新频率15IP/15分钟   
+CloudFlare官方优选(hostmonit.com)更新频率15IP/15分钟   
+CloudFlare官方优选(345673.xyz)更新频率15IP/15分钟    
+CloudFront官方优选(182682.xyz)更新频率15IP/15分钟   
+Gcore官方优选(182682.xyz)更新频率15IP/15分钟   
+        
+#### 解析支持    
+[华为云解析](https://support.huaweicloud.com/devg-apisign/api-sign-provide-aksk.html)   
+[阿里云解析](https://help.aliyun.com/document_detail/53045.html?spm=a2c4g.11186623.2.11.2c6a2fbdh13O53)   
+[腾讯云解析(DNSPOD)](https://console.cloud.tencent.com/cam/capi)   
          
 #### 宝塔兼容性   
 已测试支持以下版本    
@@ -32,15 +26,17 @@ btpanel7.7.0
 btpanel9.0.0-lts    
          
 #### 小广告
-[【宝塔】送你10850元礼包](https://www.bt.cn/?invite_code=M19yaHFycXY=)    
+   
+[【弘速云hosuyun.com】香港8H8G 50元/月](https://www.hosuyun.com/)  
+[【宝塔】Linux专业版1年￥699](https://www.bt.cn/p/2PcEKn)    
 [【腾讯云】云产品1折特惠专区](https://curl.qcloud.com/zASK1SLm)     
 [【阿里云】云产品爆款特惠](https://www.aliyun.com/minisite/goods?userCode=zqpad1gj)    
          
 #### 价格计费    
 插件免费提供授权码o1zrmHAF，可永久免费使用。    
-[GacJieMonitor](https://github.com/gacjie/cf2dns/wiki/GacJieMonitor付费KEY价格)   
-[HostMonit小店](https://shop.hostmonit.com/)   
-[345673.xyz](https://345673.xyz/)  
+[182682.xyz付费授权码购买](https://182682.xyz/dash/Account/login)   
+[hostmonit.com付费授权码购](https://shop.hostmonit.com/)   
+[345673.xyz付费授权码购](https://345673.xyz/)  
           
 ### 注意事项     
 宝塔安装时请关闭宝塔系统加固插件，会终止安装脚本的执行。     
@@ -58,17 +54,25 @@ domains.json是域名数据
 cf2dns插件、cf2dns_global、cf2dns_actions均支持。    
 配置完后可以直接备份这俩数据文件，后续需要迁移可直接上传。     
    
-#### 2024年07月28日更新记录（V1.7）            
-修复已知BUG    
+#### 2024年09月08日更新记录（V1.8）            
+更新新系统接口    
+取消CloudFlare、CloudFront、Gcore选项   
+优化用户配置选择    
    
 #### 常见问题        
+   
+Q：为啥别人使用优选很快，我使用优选访问慢？      
+A: 通常优选系统只会测用户端 - CDN节点的速度，但是节点也是要访问源站获取数据，源站与节点链接不稳定也会导致整体访问慢。   
+A：建议增加缓存或有条件更换国际线路较好的源站服务器来优化链接速度。   
+      
+Q：为什么不支持反代优选？      
+A：本项目是为了建站而开发，反代优选IP为扫描的第三方的服务器，存在不可控的安全隐患。   
+A：目前已有因使用反代优选导致域名被注册机构禁用的先例。   
+A：因此本项目未来也不会提供反代优选，除非您自行添加相关接口。    
       
 Q：为什么不支持海外dns解析运营商？     
 A：由于cf等cdn属于泛播，移动联通电信需要单独解析，才能实现三网优选。海外dns均不支持国内三网线路解析。      
-如不方便使用国内云解析 可以访问 https://monitor.gacjie.cn/page/cname/index.html 获取公共cname地址使用。       
-     
-Q：使用该插件更新IP后，导致网站全都打不开了？      
-A：使用优选IP的前提是，cdn使用cname(别名)方式接入，本插件只是将获取的优选IP解析到您的域名上去，网站打不开是因为你的CDN配置问题。        
+A：如不方便使用国内云解析 可以访问 https://www.182682.xyz 获取公共cname地址使用。       
      
 Q：该插件安全吗？      
 A：插件是基于cf2dns增加了宝塔可视化操作界面。并且代码全部公开在github上面，可先自行审查代码再决定是否安装。      
