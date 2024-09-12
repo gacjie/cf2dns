@@ -3,9 +3,9 @@ name: 'CloudFlare2DNSPod Bot'
 on:
   push:
     branches: 
-      - master
+      - main
   schedule:
-    - cron: '*/15 * * * *'
+    - cron: '*/10 * * * *'
 
 jobs:
   build:
