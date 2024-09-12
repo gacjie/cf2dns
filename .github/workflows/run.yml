@@ -6,7 +6,7 @@ on:
       - master
       - main
   schedule:
-    - cron: '*/15 * * * *'
+    - cron: '*/10 * * * *'
 
 jobs:
   build:
