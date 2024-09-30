@@ -1,13 +1,13 @@
 [
     {
         "id": 1,
-        "name": "CloudFlare官方优选(182682.xyz)",
-        "get_ip_url": "https://www.182682.xyz/api/cf2dns/get_cloudflare_ip", 
-        "get_license_url": "https://www.182682.xyz/api/cf2dns/get_license?license="
+        "name": "CloudFlare官方优选(WeTest.vip)",
+        "get_ip_url": "https://www.wetest.vip/api/cf2dns/get_cloudflare_ip", 
+        "get_license_url": "https://www.wetest.vip/api/cf2dns/get_cloudflare_license?license="
     },
     {
         "id": 2,
-        "name": "CloudFlare官方优选(hostmonit.com)",
+        "name": "CloudFlare官方优选(HostMonit.com)",
         "get_ip_url": "https://api.hostmonit.com/get_optimization_ip", 
         "get_license_url": "https://api.hostmonit.com/get_license?license="
     },
@@ -25,14 +25,14 @@
     },
     {
         "id": 5,
-        "name": "CloudFront官方优选(182682.xyz)",
-        "get_ip_url": "https://www.182682.xyz/api/cf2dns/get_cloudfront_ip", 
-        "get_license_url": "https://www.182682.xyz/api/cf2dns/get_license?license="
+        "name": "CloudFront官方优选(WeTest.vip)",
+        "get_ip_url": "https://www.wetest.vip/api/cf2dns/get_cloudfront_ip", 
+        "get_license_url": "https://www.wetest.vip/api/cf2dns/get_cloudfront_license?license="
     },
     {
         "id": 6,
-        "name": "Gcore官方优选(182682.xyz)",
-        "get_ip_url": "https://www.182682.xyz/api/cf2dns/get_gcore_ip", 
-        "get_license_url": "https://www.182682.xyz/api/cf2dns/get_license?license="
+        "name": "Gcore官方优选(WeTest.vip)",
+        "get_ip_url": "https://www.wetest.vip/api/cf2dns/get_gcore_ip", 
+        "get_license_url": "https://www.wetest.vip/api/cf2dns/get_gcore_license?license="
     }
 ]

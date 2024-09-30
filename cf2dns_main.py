@@ -37,8 +37,8 @@ class cf2dns_main:
         data['region_hw'] = args.region_hw
         data['region_ali'] = args.region_ali
         data['ttl'] = int(args.ttl)
-        data['secretid'] = args.secretid
-        data['secretkey'] = args.secretkey
+        data['secretid'] = args.secretid.strip()
+        data['secretkey'] = args.secretkey.strip()
         # data['key'] = args.key
         # data['data_server'] = int(args.data_server)
         public.writeFile(self.__config_path,json.dumps(data))
@@ -56,6 +56,8 @@ class cf2dns_main:
         if not args.host:
             return self.__response_json('',500,'主机名不能为空，请使用@创建空主机名。')
         domains =  json.loads(public.readFile(self.__domians_path))
+        args.domain = args.domain.strip()
+        args.host = args.host.strip()
         if args.domain not in domains:
             domains[args.domain] = {}
         domains[args.domain][args.host] = ["CM","CU","CT"]
@@ -80,7 +82,7 @@ class cf2dns_main:
     #设置数据服务信息
     def set_data_server(self, args):
         data =  json.loads(public.readFile(self.__config_path))
-        data['key'] = args.key
+        data['key'] = args.key.strip()
         data['data_server'] = int(args.data_server)
         public.writeFile(self.__config_path,json.dumps(data))
         return self.__response_json('',200,'数据保存成功')
@@ -102,3 +104,4 @@ class cf2dns_main:
     def __response_json(self, data, code=0, msg=''):
         response = {"code": code, "msg": msg, "data": data}
         return response
+
