@@ -33,9 +33,9 @@ btpanel9.0.0-lts
 #### 小广告
    
 [【弘速云hosuyun.com】香港、美国高性能优质线路服务器，新用户首购五折特惠。](https://www.hosuyun.com/)  
-[【宝塔】宝塔产品特惠，linux专业版1年仅需￥699。](https://www.bt.cn/p/2PcEKn)    
-[【腾讯云】云产品1折特惠，2核2G4M仅需108元/年](https://curl.qcloud.com/zASK1SLm)     
-[【阿里云】云产品爆款特惠，2核2G3M仅需82元/年](https://www.aliyun.com/minisite/goods?userCode=zqpad1gj)    
+[【宝塔bt.cn】宝塔产品特惠，linux专业版1年仅需￥699。](https://www.bt.cn/p/2PcEKn)    
+[【腾讯云cloud.tencent.com】云产品1折特惠，2核2G4M仅需108元/年](https://curl.qcloud.com/zASK1SLm)     
+[【阿里云aliyun.com】云产品爆款特惠，2核2G3M仅需82元/年](https://www.aliyun.com/minisite/goods?userCode=zqpad1gj)    
          
 #### 价格计费    
 插件免费提供授权码o1zrmHAF，可永久免费使用。    
