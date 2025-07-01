@@ -15,9 +15,8 @@
 #### 接口支持    
 CloudFlare官方优选(WeTest.vip)   更新频率15IP/15分钟   
 CloudFlare官方优选(HostMonit.com)更新频率15IP/15分钟   
-CloudFlare官方优选(345673.xyz)   更新频率15IP/15分钟    
 CloudFront官方优选(WeTest.vip)   更新频率15IP/15分钟   
-Gcore官方优选     (WeTest.vip)   更新频率15IP/15分钟   
+EdgeOne官方优选   (WeTest.vip)   更新频率15IP/15分钟   
         
 #### 解析支持    
 [华为云解析](https://support.huaweicloud.com/devg-apisign/api-sign-provide-aksk.html)   
@@ -42,7 +41,6 @@ btpanel9.0.0-lts
 [WeTest.vip付费服务说明](https://github.com/gacjie/cf2dns/wiki/WeTest付费服务说明)   
 [WeTest.vip付费授权码购买](https://www.wetest.vip/dash/Account/register)   
 [HostMonit.com付费授权码](https://shop.hostmonit.com/)   
-[345673.xyz付费授权码](https://345673.xyz/)  
           
 ### 注意事项     
 宝塔安装时请关闭宝塔系统加固插件，会终止安装脚本的执行。     
@@ -59,10 +57,11 @@ config.json是配置数据
 domains.json是域名数据    
 cf2dns插件、cf2dns_global、cf2dns_actions均支持。    
 配置完后可以直接备份这俩数据文件，后续需要迁移可直接上传。     
-   
-#### 2024年09月30日更新记录（V1.9）            
-更新接口地址为WeTest.vip   
-插件版增加对传入的字符串过滤空格、换行符   
+           
+#### 2025年07月01日更新记录（V1.10）
+新增EdgeOne官方优选(WeTest.vip)接口
+下线Gcore官方优选(WeTest.vip)
+下线CloudFlare官方优选(345673.xyz)
    
 #### 常见问题        
    
