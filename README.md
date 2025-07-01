@@ -1,7 +1,7 @@
 #### 简单介绍     
 本项目基于github.com/ddgth/cf2dns二次开发增加了更多功能与平台支持。    
 功能上主要用于自动化将优选IP地址解析到您的域名记录中。    
-支持CloudFlare、CloudFront、Gcore优选IPv4&IPv6地址    
+支持CloudFlare、CloudFront、EdgeOne优选IPv4&IPv6地址    
 支持宝塔面板、python3、GitHub-Actions三种方式部署。    
     
 #### 演示图片    
