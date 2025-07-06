@@ -28,6 +28,7 @@ EdgeOne官方优选   (WeTest.vip)   更新频率15IP/15分钟
 aapanel7.0.7   
 btpanel7.7.0    
 btpanel9.0.0-lts    
+btpanel10.0.1-lts  
          
 #### 小广告
    
@@ -58,7 +59,8 @@ domains.json是域名数据
 cf2dns插件、cf2dns_global、cf2dns_actions均支持。    
 配置完后可以直接备份这俩数据文件，后续需要迁移可直接上传。     
            
-#### 2025年07月01日更新记录（V1.10）
+#### 2025年07月06日更新记录（V1.11）
+修复补全缺少的文件
 新增EdgeOne官方优选(WeTest.vip)接口
 下线Gcore官方优选(WeTest.vip)
 下线CloudFlare官方优选(345673.xyz)
