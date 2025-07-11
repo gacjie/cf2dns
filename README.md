@@ -15,6 +15,7 @@
 #### 接口支持    
 CloudFlare官方优选(WeTest.vip)   更新频率15IP/15分钟   
 CloudFlare官方优选(HostMonit.com)更新频率15IP/15分钟   
+CloudFlare官方优选(Smognode1.top)更新频率15IP/15分钟   
 CloudFront官方优选(WeTest.vip)   更新频率15IP/15分钟   
 EdgeOne官方优选   (WeTest.vip)   更新频率15IP/15分钟   
         
@@ -59,11 +60,8 @@ domains.json是域名数据
 cf2dns插件、cf2dns_global、cf2dns_actions均支持。    
 配置完后可以直接备份这俩数据文件，后续需要迁移可直接上传。     
            
-#### 2025年07月06日更新记录（V1.11）   
-修复补全缺少的文件   
-新增EdgeOne官方优选(WeTest.vip)接口   
-下线Gcore官方优选(WeTest.vip)   
-下线CloudFlare官方优选(345673.xyz)   
+#### 2025年07月06日更新记录（V1.12）
+新增CloudFlare官方优选(Smognode1.top)接口
    
 #### 常见问题        
    
