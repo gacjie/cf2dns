@@ -12,12 +12,15 @@
 core 不判断部署形态，也不该绕过 logger 直接 print —— 那样会绕过 Actions 的日志脱敏。
 """
 
+import ipaddress
 import json
 import random
 import time
 import traceback
+from concurrent.futures import ThreadPoolExecutor
 
 from .dnsapi import base, create_client
+from .probe import probe_ip, record_hostname
 
 #线路码 → 中文线路名。CM:移动 CU:联通 CT:电信 AB:境外 DEF:默认
 LINES = {"CM": "移动", "CU": "联通", "CT": "电信", "AB": "境外", "DEF": "默认"}
@@ -85,6 +88,40 @@ class Engine:
             self.logger.error("CHANGE OPTIMIZATION IP ERROR: ----Time: " + _now() + "----MESSAGE: " + str(e))
             return None
 
+    def _checked_candidates(self, hostname, candidates, iptype, cache):
+        """每轮对相同 (域名, IP) 只检查一次，三网和 AB/DEF 复用检查结果。"""
+        normalized = {}
+        for line, items in candidates.items():
+            normalized[line] = {}
+            for item in items:
+                try:
+                    address = ipaddress.ip_address(item['ip'])
+                    if address.version != (6 if iptype == 'v6' else 4):
+                        raise ValueError('IP 地址类型与当前解析类型不符')
+                    normalized[line][str(address)] = dict(item, ip=str(address))
+                except (KeyError, TypeError, ValueError) as exc:
+                    self.logger.error('SKIP INVALID IP: ----HOST: ' + hostname + '----MESSAGE: ' + str(exc))
+
+        pending = sorted({ip for items in normalized.values() for ip in items
+                          if (hostname, ip) not in cache})
+        with ThreadPoolExecutor(max_workers=8) as pool:
+            results = pool.map(lambda ip: probe_ip(hostname, ip), pending)
+            for ip, result in zip(pending, results):
+                cache[hostname, ip] = result
+                if not result[0]:
+                    self.logger.info('SKIP UNUSABLE IP: ----HOST: ' + hostname
+                                     + '----IP: ' + ip + '----MESSAGE: ' + result[1])
+
+        checked = {}
+        for line, items in normalized.items():
+            checked[line] = [item for ip, item in items.items() if cache[hostname, ip][0]]
+            self.logger.info('CHECK IP: ----HOST: ' + hostname + '----LINE: ' + LINES[line]
+                             + '----PASSED: {}/{}'.format(len(checked[line]), len(items)))
+            if not checked[line]:
+                self.logger.error('SKIP DNS UPDATE: ----HOST: ' + hostname + '----LINE: ' + LINES[line]
+                                  + '----MESSAGE: 无可用候选 IP，保留原记录')
+        return checked
+
     #------------------------------------------------------------------ 主流程
 
     def _sync(self, cloud, iptype):
@@ -106,21 +143,26 @@ class Engine:
                 self.logger.error("GET CLOUDFLARE IP ERROR: ----Time: " + _now() + "----MESSAGE: " + str(detail))
                 return
 
-            cf_cmips = cfips["info"]["CM"]
-            cf_cuips = cfips["info"]["CU"]
-            cf_ctips = cfips["info"]["CT"]
+            candidates = {line: cfips['info'].get(line, []) for line in ('CM', 'CU', 'CT')}
+            # 优选接口只返回三网，AB/DEF 复用电信数据。
+            candidates['AB'] = candidates['CT']
+            candidates['DEF'] = candidates['CT']
+            probe_cache = {}
 
             for domain, sub_domains in self.domains.items():
                 for sub_domain, lines in sub_domains.items():
-                    temp_cf_cmips = cf_cmips.copy()
-                    temp_cf_cuips = cf_cuips.copy()
-                    temp_cf_ctips = cf_ctips.copy()
-                    #优选接口只返回三网，AB/DEF 复用电信数据
-                    temp_cf_abips = cf_ctips.copy()
-                    temp_cf_defips = cf_ctips.copy()
-
-                    if dns_server == 1:
-                        self._clean_cname(cloud, domain, sub_domain)
+                    try:
+                        hostname = record_hostname(domain, sub_domain)
+                    except ValueError as exc:
+                        self.logger.error('SKIP DNS UPDATE: ----DOMAIN: ' + domain
+                                          + '----SUBDOMAIN: ' + sub_domain + '----MESSAGE: ' + str(exc))
+                        continue
+                    checked = self._checked_candidates(
+                        hostname, {line: candidates[line] for line in lines if line in candidates},
+                        iptype, probe_cache)
+                    active_lines = [line for line, items in checked.items() if items]
+                    if not active_lines:
+                        continue
 
                     ret = cloud.get_record(domain, 100, sub_domain, record_type)
                     if dns_server != 1 and ret.get("code") != 0:
@@ -136,6 +178,11 @@ class Engine:
                         affect_num = int(self.config.get("affect_num", 2))
                         if dns_server == 1 and "Free" in ret["data"]["domain"]["grade"] and affect_num > 2:
                             affect_num = 2
+                        if affect_num <= 0:
+                            continue
+                        # 检测通过且查询成功后才清理 CNAME，失败线路的原解析保持不动。
+                        if dns_server == 1:
+                            self._clean_cname(cloud, domain, sub_domain, active_lines)
 
                         cm_info = []
                         cu_info = []
@@ -158,30 +205,28 @@ class Engine:
                                 def_info.append(info)
 
                         buckets = {
-                            "CM": (cm_info, temp_cf_cmips),
-                            "CU": (cu_info, temp_cf_cuips),
-                            "CT": (ct_info, temp_cf_ctips),
-                            "AB": (ab_info, temp_cf_abips),
-                            "DEF": (def_info, temp_cf_defips),
+                            "CM": cm_info,
+                            "CU": cu_info,
+                            "CT": ct_info,
+                            "AB": ab_info,
+                            "DEF": def_info,
                         }
-                        for line in lines:
-                            if line in buckets:
-                                s_info, c_info = buckets[line]
-                                self._change_dns(line, s_info, c_info, domain, sub_domain,
-                                                 cloud, iptype, affect_num)
+                        for line in active_lines:
+                            self._change_dns(line, buckets[line], checked[line], domain, sub_domain,
+                                             cloud, iptype, affect_num)
         except Exception as e:
             #traceback 走 logger 而不是 print_exc：后者直接打 stderr，既进不了 cf2dns.log，
             #也绕过 Actions 形态的日志脱敏
             self.logger.error("CHANGE DNS ERROR: ----Time: " + _now() + "----MESSAGE: " + str(e)
                               + "\n" + traceback.format_exc())
 
-    def _clean_cname(self, cloud, domain, sub_domain):
-        """DNSPod：同名的三网 CNAME 记录会与 A/AAAA 冲突，先清掉"""
+    def _clean_cname(self, cloud, domain, sub_domain, active_lines):
+        """DNSPod：仅清理本次有可用 IP、即将更新的线路的 CNAME。"""
         ret = cloud.get_record(domain, 20, sub_domain, "CNAME")
         if ret["code"] != 0:
             return
         for record in ret["data"]["records"]:
-            if record["line"] == "移动" or record["line"] == "联通" or record["line"] == "电信":
+            if record["line"] in {LINES[line] for line in active_lines}:
                 retMsg = cloud.del_record(domain, record["id"])
                 if(retMsg["code"] == 0):
                     self.logger.info("DELETE DNS SUCCESS: ----Time: " + _now() + "----DOMAIN: " + domain + "----SUBDOMAIN: " + sub_domain + "----RECORDLINE: "+record["line"] )
@@ -197,50 +242,57 @@ class Engine:
             recordType = "A"
 
         line = LINES[line]
-        dns_server = self.config.get("dns_server")
         ttl = self.config.get("ttl", 600)
 
         try:
-            create_num = affect_num - len(s_info)
-            if create_num == 0:
-                for info in s_info:
-                    if len(c_info) == 0:
-                        break
-                    cf_ip = c_info.pop(random.randint(0,len(c_info)-1))["ip"]
-                    if cf_ip in str(s_info):
-                        continue
-                    ret = cloud.change_record(domain, info["recordId"], sub_domain, cf_ip, recordType, line, ttl)
-                    if(dns_server != 1 or ret["code"] == 0):
-                        self.logger.info("CHANGE DNS SUCCESS: ----Time: " + _now() + "----DOMAIN: " + domain + "----SUBDOMAIN: " + sub_domain + "----RECORDLINE: "+line+"----RECORDID: " + str(info["recordId"]) + "----VALUE: " + cf_ip )
-                    else:
-                        self.logger.error("CHANGE DNS ERROR: ----Time: " + _now() + "----DOMAIN: " + domain + "----SUBDOMAIN: " + sub_domain + "----RECORDLINE: "+line+"----RECORDID: " + str(info["recordId"]) + "----VALUE: " + cf_ip + "----MESSAGE: " + ret["message"] )
-            elif create_num > 0:
-                for i in range(create_num):
-                    if len(c_info) == 0:
-                        break
-                    cf_ip = c_info.pop(random.randint(0,len(c_info)-1))["ip"]
-                    if cf_ip in str(s_info):
-                        continue
-                    ret = cloud.create_record(domain, sub_domain, cf_ip, recordType, line, ttl)
-                    if(dns_server != 1 or ret["code"] == 0):
-                        self.logger.info("CREATE DNS SUCCESS: ----Time: " + _now() + "----DOMAIN: " + domain + "----SUBDOMAIN: " + sub_domain + "----RECORDLINE: "+line+"----VALUE: " + cf_ip )
-                    else:
-                        #原来这里写的是 info["recordId"]，但本分支是新建、循环变量是 i，
-                        #没有 info 可言 —— 触发时会抛 NameError
-                        self.logger.error("CREATE DNS ERROR: ----Time: " + _now() + "----DOMAIN: " + domain + "----SUBDOMAIN: " + sub_domain + "----RECORDLINE: "+line+"----VALUE: " + cf_ip + "----MESSAGE: " + ret["message"] )
-            else:
-                for info in s_info:
-                    if create_num == 0 or len(c_info) == 0:
-                        break
-                    cf_ip = c_info.pop(random.randint(0,len(c_info)-1))["ip"]
-                    if cf_ip in str(s_info):
-                        create_num += 1
-                        continue
-                    ret = cloud.change_record(domain, info["recordId"], sub_domain, cf_ip, recordType, line, ttl)
-                    if(dns_server != 1 or ret["code"] == 0):
-                        self.logger.info("CHANGE DNS SUCCESS: ----Time: " + _now() + "----DOMAIN: " + domain + "----SUBDOMAIN: " + sub_domain + "----RECORDLINE: "+line+"----RECORDID: " + str(info["recordId"]) + "----VALUE: " + cf_ip )
-                    else:
-                        self.logger.error("CHANGE DNS ERROR: ----Time: " + _now() + "----DOMAIN: " + domain + "----SUBDOMAIN: " + sub_domain + "----RECORDLINE: "+line+"----RECORDID: " + str(info["recordId"]) + "----VALUE: " + cf_ip + "----MESSAGE: " + ret["message"] )
-                    create_num += 1
+            if affect_num <= 0 or not c_info:
+                return
+            verified = {item['ip'] for item in c_info}
+            if len(verified) < affect_num:
+                self.logger.info('IP CANDIDATE SHORTAGE: ----DOMAIN: ' + domain + '----SUBDOMAIN: ' + sub_domain
+                                 + '----RECORDLINE: ' + line + '----PASSED: {}/{}'.format(len(verified), affect_num)
+                                 + '----MESSAGE: 通过检测的候选不足目标数量，仅使用已通过地址')
+            existing = set()
+            replace = []
+            for info in s_info:
+                try:
+                    value = str(ipaddress.ip_address(info['value']))
+                except ValueError:
+                    value = info['value']
+                if value in verified and value not in existing:
+                    existing.add(value)
+                else:
+                    replace.append(info)
+
+            available = sorted(verified - existing)
+            random.shuffle(available)
+            # 先替换旧地址再补足数量。原来数量不足时只新增，会留下触发 1034 的旧地址；
+            # 随机抽中已有的好地址再 continue，也可能跳过真正需要替换的坏地址。
+            for info in replace:
+                if not available:
+                    self.logger.error('SKIP DNS UPDATE: ----DOMAIN: ' + domain + '----SUBDOMAIN: ' + sub_domain
+                                      + '----RECORDLINE: ' + line + '----MESSAGE: 可用候选不足，部分旧记录保留')
+                    break
+                cf_ip = available.pop()
+                ret = cloud.change_record(domain, info['recordId'], sub_domain, cf_ip, recordType, line, ttl)
+                detail = ('----Time: ' + _now() + '----DOMAIN: ' + domain + '----SUBDOMAIN: ' + sub_domain
+                          + '----RECORDLINE: ' + line + '----RECORDID: ' + str(info['recordId'])
+                          + '----VALUE: ' + cf_ip)
+                if ret.get('code') == 0:
+                    self.logger.info('CHANGE DNS SUCCESS: ' + detail)
+                else:
+                    self.logger.error('CHANGE DNS ERROR: ' + detail + '----MESSAGE: ' + str(ret.get('message', '')))
+
+            for _ in range(max(0, affect_num - len(s_info))):
+                if not available:
+                    break
+                cf_ip = available.pop()
+                ret = cloud.create_record(domain, sub_domain, cf_ip, recordType, line, ttl)
+                detail = ('----Time: ' + _now() + '----DOMAIN: ' + domain + '----SUBDOMAIN: ' + sub_domain
+                          + '----RECORDLINE: ' + line + '----VALUE: ' + cf_ip)
+                if ret.get('code') == 0:
+                    self.logger.info('CREATE DNS SUCCESS: ' + detail)
+                else:
+                    self.logger.error('CREATE DNS ERROR: ' + detail + '----MESSAGE: ' + str(ret.get('message', '')))
         except Exception as e:
             self.logger.error("CHANGE DNS ERROR: ----Time: " + _now() + "----MESSAGE: " + str(e))
