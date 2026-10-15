@@ -31,6 +31,7 @@ sys.path.insert(0, BASE_DIR)
 
 from module.core import Engine
 from module.log import Logger, PrintLogger, RedactingLogger, github_add_mask
+from module.probe import record_hostname
 from module.store import Store
 
 #(环境变量名, 文件名, V1.15 之前的老文件名)
@@ -108,10 +109,19 @@ def redactions(config, domains):
         values.add(str((config or {}).get(field) or ''))
     for domain, sub_domains in (domains or {}).items():
         values.add(str(domain))
+        # 探测会将域名小写化并转成 IDNA；公开日志也必须屏蔽这些规范形式。
+        try:
+            values.add(record_hostname(domain, '@'))
+        except (TypeError, ValueError):
+            pass
         for sub_domain in (sub_domains or {}):
             values.add(str(sub_domain))
             if sub_domain and sub_domain != '@':
                 values.add('{}.{}'.format(sub_domain, domain))
+            try:
+                values.add(record_hostname(domain, sub_domain))
+            except (TypeError, ValueError):
+                pass
     return {v for v in values if len(v) >= MIN_REDACT_LEN}
 
 
